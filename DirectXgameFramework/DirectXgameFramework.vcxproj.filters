@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>7b157b2a-1a0f-4315-b758-05896a2612af</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Framework Header">
+      <UniqueIdentifier>{6030d6b9-9150-49e4-8b76-e54591c106da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework Source">
+      <UniqueIdentifier>{a8cab200-f929-4f63-8ab3-52da7fbc3156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{c3337387-e39d-437e-a148-d599e1bef156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2219d638-76a0-4556-a088-91b88f1283ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun">
+      <UniqueIdentifier>{c0e02f71-efa2-4aff-9ce8-fa70ad272265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Scene">
+      <UniqueIdentifier>{45390c0e-c7d3-4a2a-a00d-82ab132792a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Stage">
+      <UniqueIdentifier>{b30f1016-371d-4c79-aa4c-d98ca8ae9399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Object">
+      <UniqueIdentifier>{3538b49f-81b0-4287-9dae-466254f375cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Object\Player">
+      <UniqueIdentifier>{3c4e4c24-ad65-4448-a97f-471fe9e32c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Object\Player\State">
+      <UniqueIdentifier>{aa35896b-7ef0-4eb9-beca-9ab7e3808eff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Framework Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Framework Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Framework Header</Filter>
+    </ClInclude>
+    <ClInclude Include="dx.h">
+      <Filter>Framework Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.h">
+      <Filter>Framework Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Scene\PlayScene.h">
+      <Filter>Shun\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Scene\Scene.h">
+      <Filter>Shun\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Stage\Stage.h">
+      <Filter>Shun\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Object.h">
+      <Filter>Shun\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Player\Player.h">
+      <Filter>Shun\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Player\State\PlayerMoveState.h">
+      <Filter>Shun\Object\Player\State</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framework Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Framework Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Framework Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Scene\PlayScene.cpp">
+      <Filter>Shun\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Scene\Scene.cpp">
+      <Filter>Shun\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Stage\Stage.cpp">
+      <Filter>Shun\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Object.cpp">
+      <Filter>Shun\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Player\Player.cpp">
+      <Filter>Shun\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Player\State\PlayerMoveState.cpp">
+      <Filter>Shun\Object\Player\State</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Model\Ghost.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Model\Glass.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Model\tree.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Model\Enemy.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Model\Player.FBX">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+</Project>
