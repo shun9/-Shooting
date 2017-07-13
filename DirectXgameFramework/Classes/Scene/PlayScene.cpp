@@ -13,6 +13,9 @@
 
 #include "../../Graphics.h"
 #include "../Stage/Stage.h"
+#include "../Object/Player/Player.h"
+#include "../Object/Enemy/Enemy.h"
+
 
 //ステージの上下左右
 const float PlayScene::STAGE_TOP = 25.0f;
@@ -42,6 +45,9 @@ PlayScene::PlayScene() {
 
 	m_player = new Player;
 	m_player->LoadModel(L"CModel\\Player.cmo");
+
+	m_enemy = new Enemy;
+	m_enemy->LoadModel(L"CModel\\Enemy.cmo");
 }
 
 
@@ -53,6 +59,8 @@ PlayScene::~PlayScene()
 	DELETE_POINTER(m_stage);
 
 	DELETE_POINTER(m_player);
+
+	DELETE_POINTER(m_enemy);
 }
 
 
@@ -64,6 +72,8 @@ PlayScene::~PlayScene()
 void PlayScene::Update()
 {
 	m_player->Update();
+
+	m_enemy->Update();
 }
 
 
@@ -78,6 +88,7 @@ void PlayScene::Render()
 
 	m_player->Draw(m_view, m_proj);
 
+	m_enemy->Draw(m_view, m_proj);
 }
 
 

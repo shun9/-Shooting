@@ -17,11 +17,7 @@ Object::Object():
 	m_angle(0.0f),
 	m_model(nullptr)
 {
-	using namespace ShunLib;
 
-	//delete -> ~Object
-	m_pos   = Vec3(0.0f);
-	m_spd   = Vec3(0.0f);
 }
 
 
@@ -68,9 +64,10 @@ void Object::CalculateDirection()
 		return;
 	}
 
-	m_spd.Normalize();
+	auto spd = m_spd;
+	spd.Normalize();
 
-	float rot = ShunLib::ToAngle(std::atan2(m_spd.m_z, m_spd.m_x)) - 90.0f;
+	float rot = ShunLib::ToAngle(std::atan2(spd.m_z, spd.m_x)) - 90.0f;
 
 	m_angle = rot;
 }

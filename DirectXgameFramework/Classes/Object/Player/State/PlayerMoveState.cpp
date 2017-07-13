@@ -6,6 +6,7 @@
 //************************************************/
 #include "PlayerMoveState.h"
 #include <SL_KeyManager.h>
+#include "../Player.h"
 
 void PlayerMoveState::Enter(Player * player)
 {
@@ -19,12 +20,12 @@ void PlayerMoveState::Execute(Player* player)
 	auto pos = player->Pos();
 	if (key->IsPushed(KeyManager::KEY_CODE::RIGHT))
 	{
-		pos.m_x += 0.1f;
+		pos.m_x += (player->Spd().m_x /60.0f);
 	}
 
 	if (key->IsPushed(KeyManager::KEY_CODE::LEFT))
 	{
-		pos.m_x -= 0.1f;
+		pos.m_x -= player->Spd().m_x / 60.0f;
 	}
 	player->Pos(pos);
 }

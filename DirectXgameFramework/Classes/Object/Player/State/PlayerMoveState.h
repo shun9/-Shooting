@@ -6,8 +6,7 @@
 //************************************************/
 #pragma once
 #include <SL_State.h>
-#include <SL_Singleton.h>
-#include "../Player.h"
+class Player;
 
 class PlayerMoveState : public ShunLib::State<Player>
 {

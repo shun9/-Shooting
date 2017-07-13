@@ -35,6 +35,12 @@
     <Filter Include="Shun\Object\Player\State">
       <UniqueIdentifier>{aa35896b-7ef0-4eb9-beca-9ab7e3808eff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shun\Object\Enemy">
+      <UniqueIdentifier>{41ebedec-3e7a-4621-9ea8-94053ea7d4b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Object\Enemy\State">
+      <UniqueIdentifier>{3a002f83-35f9-4ace-8092-1412d0396a9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -73,6 +79,12 @@
     <ClInclude Include="Classes\Object\Player\State\PlayerMoveState.h">
       <Filter>Shun\Object\Player\State</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Object\Enemy\Enemy.h">
+      <Filter>Shun\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Enemy\State\EnemyMoveState.h">
+      <Filter>Shun\Object\Enemy\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -107,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="Classes\Object\Player\State\PlayerMoveState.cpp">
       <Filter>Shun\Object\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Enemy\Enemy.cpp">
+      <Filter>Shun\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Enemy\State\EnemyMoveState.cpp">
+      <Filter>Shun\Object\Enemy\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,12 @@ using namespace ShunLib;
 
 Player::Player()
 {
+	//‰ŠúˆÊ’u
+	this->Pos(Vec3(1.0f, 0.0f, 10.0f));
+
+	//‘¬“x
+	this->Spd(Vec3(5.0f, 0.0f, 0.0f));
+
 	//ó‘ÔŠÇ——p
 	m_stateMachine = new StateMachine<Player>(this);
 	m_stateMachine->ChangeState(new PlayerMoveState);

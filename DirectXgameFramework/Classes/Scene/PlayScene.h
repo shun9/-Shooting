@@ -16,9 +16,9 @@
 /*--[DirectXTK]--*/
 #include <SimpleMath.h>
 
-#include "../Object/Player/Player.h"
-
 class Stage;
+class Player;
+class Enemy;
 
 class PlayScene:public Scene
 {
@@ -38,6 +38,7 @@ private:
 
 	Stage* m_stage;
 	Player* m_player;
+	Enemy* m_enemy;
 
 public:
 	PlayScene();
