@@ -1,12 +1,62 @@
 //************************************************/
 //* @file  :Object.cpp
 //* @brief :オブジェクトの基底クラス
-//* @date  :2017/07/13
+//* @date  :2017/07/18
 //* @author:S.Katou
 //************************************************/
 #include "Object.h"
 #include <SL_Conversion.h>
 #include <SL_MacroConstants.h>
+
+/// <summary>
+/// 当たり判定
+/// </summary>
+/// <param name="A">オブジェ１</param>
+/// <param name="B">オブジェ２</param>
+/// <returns>結果</returns>
+bool Object::Collision(const Object& A, const Object& B)
+{
+	using namespace ShunLib;
+
+	Vec3 pos1 = A.Pos();
+	Vec3 pos2 = B.Pos();
+
+	float x = pos1.m_x - pos2.m_x;
+	float y = pos1.m_z - pos2.m_z;
+	float r = A.Radius() + B.Radius();
+
+	if (x*x + y*y <= r*r)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+/// <summary>
+/// 当たり判定
+/// </summary>
+/// <param name="A">オブジェ１(ポインタ)</param>
+/// <param name="B">オブジェ２(ポインタ)</param>
+/// <returns>結果</returns>
+bool Object::Collision(const Object* A, const Object* B)
+{
+	using namespace ShunLib;
+
+	Vec3 pos1 = A->Pos();
+	Vec3 pos2 = B->Pos();
+
+	float x = pos1.m_x - pos2.m_x;
+	float y = pos1.m_z - pos2.m_z;
+	float r = A->Radius() + B->Radius();
+
+	if (x*x + y*y <= r*r)
+	{
+		return true;
+	}
+
+	return false;
+}
 
 //＋ーーーーーーーーーーーーーー＋
 //｜機能  :コンストラクタ
@@ -15,7 +65,9 @@
 //＋ーーーーーーーーーーーーーー＋
 Object::Object():
 	m_angle(0.0f),
-	m_model(nullptr)
+	m_radius(1.0),
+	m_model(nullptr),
+	m_isDead(false)
 {
 
 }
@@ -42,32 +94,7 @@ void Object::Draw(const ShunLib::Matrix& view, const ShunLib::Matrix& proj)
 
 	if (m_model != nullptr)
 	{
-		//向いている方向を計算する
-		CalculateDirection();
-
 		Matrix world = Matrix::CreateRotationY(m_angle) * Matrix::CreateTranslation(m_pos);
 		m_model->Draw(world, view, proj);
 	}
-}
-
-
-//＋ーーーーーーーーーーーーーー＋
-//｜機能  :向いている方向を計算する
-//｜引数  :なし(void)
-//｜戻り値:なし(void)
-//＋ーーーーーーーーーーーーーー＋
-void Object::CalculateDirection()
-{
-	//動いていなければ計算しない
-	if (m_spd.m_x == 0.0f&&m_spd.m_y==0.0f&&m_spd.m_z==0.0f)
-	{
-		return;
-	}
-
-	auto spd = m_spd;
-	spd.Normalize();
-
-	float rot = ShunLib::ToAngle(std::atan2(spd.m_z, spd.m_x)) - 90.0f;
-
-	m_angle = rot;
 }

@@ -12,11 +12,13 @@
 /*--[ShunLib]--*/
 #include <SL_Matrix.h>
 #include <SL_Model.h>
+#include <SL_Factory.h>
 
 /*--[DirectXTK]--*/
 #include <SimpleMath.h>
 
 class Stage;
+class Object;
 class Player;
 class Enemy;
 
@@ -37,8 +39,12 @@ private:
 	ShunLib::Matrix m_proj;	//プロジェクション行列
 
 	Stage* m_stage;
-	Player* m_player;
-	Enemy* m_enemy;
+
+	std::vector<Object*>m_objectPool;
+
+	ShunLib::Factory<Player> m_playerFactory;
+	ShunLib::Factory<Enemy> m_enemyFactory;
+	ShunLib::Factory<Stage> m_stageFactory;
 
 public:
 	PlayScene();
@@ -47,5 +53,12 @@ public:
 	//更新＆描画
 	void Update()override;
 	void Render()override;
+
+private:
+	//敵の生成
+	void AppearEnemy();
+
+	//オブジェクトの削除
+	//void DeleteObject(Object* obj);
 };
 

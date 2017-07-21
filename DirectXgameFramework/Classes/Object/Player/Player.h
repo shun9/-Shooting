@@ -8,9 +8,17 @@
 
 #include <SL_StateMachine.h>
 #include "../Object.h"
+class Bullet;
 
 class Player : public Object
 {
+private:
+	//ó‘ÔŠÇ——p
+	ShunLib::StateMachine<Player>* m_stateMachine;
+
+	//’e
+	std::vector<Bullet*>m_bullet;
+
 public:
 	Player();
 	~Player();
@@ -23,8 +31,17 @@ public:
 		m_stateMachine->ChangeState(state);
 	}
 
-private:
-	//ó‘ÔŠÇ——p
-	ShunLib::StateMachine<Player>* m_stateMachine;
+	//’e‚Ì“o˜^
+	void RegisterBullet(Bullet* bullet) {
+		m_bullet.push_back(bullet);
+	}
+
+	//“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
+	void Hit(TAG_LIST tag)override;
+
+	//”ÍˆÍŠO‚Éo‚½‚Ìˆ—
+	void Clamp(float top, float bottom, float right, float left);
+
+	void Shoot();
 
 };

@@ -41,6 +41,12 @@
     <Filter Include="Shun\Object\Enemy\State">
       <UniqueIdentifier>{3a002f83-35f9-4ace-8092-1412d0396a9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shun\Object\Bullet">
+      <UniqueIdentifier>{35572427-92c6-4266-a5d1-b441fb56fe29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shun\Object\Bullet\State">
+      <UniqueIdentifier>{83bfc572-03a7-4ab0-9472-4ae22359d605}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -85,6 +91,15 @@
     <ClInclude Include="Classes\Object\Enemy\State\EnemyMoveState.h">
       <Filter>Shun\Object\Enemy\State</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Object\Enemy\State\EnemyRotationState.h">
+      <Filter>Shun\Object\Enemy\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Bullet\Bullet.h">
+      <Filter>Shun\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Bullet\State\BulletAttackState.h">
+      <Filter>Shun\Object\Bullet\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -125,6 +140,15 @@
     </ClCompile>
     <ClCompile Include="Classes\Object\Enemy\State\EnemyMoveState.cpp">
       <Filter>Shun\Object\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Enemy\State\EnemyRotationState.cpp">
+      <Filter>Shun\Object\Enemy\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Bullet\Bullet.cpp">
+      <Filter>Shun\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Bullet\State\BulletAttackState.cpp">
+      <Filter>Shun\Object\Bullet\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
