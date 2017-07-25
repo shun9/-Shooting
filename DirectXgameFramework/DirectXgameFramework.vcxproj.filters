@@ -47,6 +47,9 @@
     <Filter Include="Shun\Object\Bullet\State">
       <UniqueIdentifier>{83bfc572-03a7-4ab0-9472-4ae22359d605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shun\Other">
+      <UniqueIdentifier>{1b00657f-390a-4cf3-8d12-9945d62aef17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -100,6 +103,18 @@
     <ClInclude Include="Classes\Object\Bullet\State\BulletAttackState.h">
       <Filter>Shun\Object\Bullet\State</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Object\Bullet\State\BulletReturnState.h">
+      <Filter>Shun\Object\Bullet\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Bullet\State\BulletStandState.h">
+      <Filter>Shun\Object\Bullet\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Player\State\PlayerAttackState.h">
+      <Filter>Shun\Object\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Other\ScoreCounter.h">
+      <Filter>Shun\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -150,6 +165,18 @@
     <ClCompile Include="Classes\Object\Bullet\State\BulletAttackState.cpp">
       <Filter>Shun\Object\Bullet\State</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Object\Bullet\State\BulletReturnState.cpp">
+      <Filter>Shun\Object\Bullet\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Bullet\State\BulletStandState.cpp">
+      <Filter>Shun\Object\Bullet\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Object\Player\State\PlayerAttackState.cpp">
+      <Filter>Shun\Object\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Other\ScoreCounter.cpp">
+      <Filter>Shun\Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -180,5 +207,8 @@
     <MeshContentTask Include="Model\Player.FBX">
       <Filter>Assets</Filter>
     </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

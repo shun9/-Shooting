@@ -17,13 +17,14 @@
 #include "../Stage/Stage.h"
 #include "../Object/Player/Player.h"
 #include "../Object/Enemy/Enemy.h"
-
+#include "../Object/Bullet/Bullet.h"
+#include "../Other/ScoreCounter.h"
 
 //ステージの上下左右
-const float PlayScene::STAGE_TOP = 25.0f;
+const float PlayScene::STAGE_TOP    =  15.0f;
 const float PlayScene::STAGE_BOTTOM = -30.0f;
-const float PlayScene::STAGE_RIGHT = 15.0f;
-const float PlayScene::STAGE_LEFT = -15.0f;
+const float PlayScene::STAGE_RIGHT  =  15.0f;
+const float PlayScene::STAGE_LEFT   = -15.0f;
 
 using namespace ShunLib;
 
@@ -32,23 +33,40 @@ using namespace ShunLib;
 //＋ーーーーーーーーーーーーーー＋
 PlayScene::PlayScene() {
 	//ビュー行列作成
-	MatrixD view = MatrixD::CreateLookAt(ConvertTK(Vec3(0.0f, 30.0f, 15.0f)),
-										 ConvertTK(Vec3::Zero),
-										 ConvertTK(Vec3::UnitY));
-	m_view = ConvertTK(view);
+	m_view = Matrix::CreateLookAt(Vec3(0.0f, 30.0f, 15.0f), Vec3::Zero, Vec3::UnitY);
 
 	//プロジェクション行列作成
-	float w = static_cast<float>(Graphics::Get().Width());
-	float h = static_cast<float>(Graphics::Get().Height());
+	float w      = static_cast<float>(Graphics::Get().Width());
+	float h      = static_cast<float>(Graphics::Get().Height());
 	MatrixD proj = MatrixD::CreatePerspectiveFieldOfView(ToRadian(45.0f),w/h,0.1f,1000.0f);
-	m_proj = ConvertTK(proj);
+	m_proj       = ConvertTK(proj);
+	m_proj     = Matrix::CreateProj(ToRadian(45.0f), w / h, 0.1f, 1000.0f);
 
+	//ステージ生成
 	m_stage = m_stageFactory.Create();
 
+
+
+	//プレイヤーの生成
 	auto player = m_playerFactory.Create();
 	player->LoadModel(L"CModel\\Player.cmo");
 	m_objectPool.push_back(player);
-	AppearEnemy();
+
+	//弾の生成
+	for (int i = 0; i < Player::MAX_BULLET; i++)
+	{
+		auto bullet = m_bulletFactory.Create();
+		player->RegisterBullet(bullet);
+		bullet->Player(player);
+
+		bullet->LoadModel(L"CModel\\Ghost.cmo");
+		m_objectPool.push_back(bullet);
+	}
+
+	auto scoreCounter = ScoreCounter::GetInstance();
+
+	scoreCounter->Pos(Vec2(100, 100));
+	scoreCounter->Scale(1.0f);
 }
 
 
@@ -60,6 +78,7 @@ PlayScene::~PlayScene()
 	m_playerFactory.AllDelete();
 	m_enemyFactory.AllDelete();
 	m_stageFactory.AllDelete();
+	m_bulletFactory.AllDelete();
 
 	m_objectPool.clear();
 	m_objectPool.shrink_to_fit();
@@ -83,6 +102,7 @@ void PlayScene::Update()
 			//死んでいるオブジェクトを破棄
 			if ((*itr)->IsDead()){
 				if (dynamic_cast<Enemy*>((*itr)) != nullptr){
+
 					m_enemyFactory.Delete(dynamic_cast<Enemy*>((*itr)));
 				}
 				itr = m_objectPool.erase(itr);
@@ -100,8 +120,8 @@ void PlayScene::Update()
 		{
 			if (Object::Collision((*i), (*itr)))
 			{
-				(*i)->Hit((*itr)->Tag());
-				(*itr)->Hit((*i)->Tag());
+				(*itr)->Hit(*(*i));
+				(*i)->Hit(*(*itr));
 			}
 		}
 	}
@@ -109,7 +129,7 @@ void PlayScene::Update()
 	static int n = 0;
 	n++;
 
-	if (n % 10 == 0)
+	if (n % 100 == 0)
 	{
 		AppearEnemy();
 	}
@@ -131,6 +151,8 @@ void PlayScene::Render()
 	{
 		if ((*itr) != nullptr)(*itr)->Draw(m_view, m_proj);
 	}
+
+	ScoreCounter::GetInstance()->DrawScore();
 }
 
 

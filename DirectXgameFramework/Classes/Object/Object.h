@@ -53,6 +53,7 @@ protected:
 public:
 	//コンストラクタ＆デストラクタ
 	Object();
+	Object(const Object& obj);
 	virtual ~Object();
 
 	//更新処理
@@ -63,7 +64,7 @@ public:
 					  const ShunLib::Matrix& proj);
 
 	//何かと当たったときの処理
-	virtual void Hit(TAG_LIST tag) = 0;
+	virtual void Hit(const Object& obj) = 0;
 
 	//範囲外から出ないようにする処理
 	virtual void Clamp(float top,float bottom,float right,float left) = 0;

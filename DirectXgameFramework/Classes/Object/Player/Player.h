@@ -12,6 +12,9 @@ class Bullet;
 
 class Player : public Object
 {
+public:
+	static const int MAX_BULLET;
+
 private:
 	//ó‘ÔŠÇ——p
 	ShunLib::StateMachine<Player>* m_stateMachine;
@@ -37,7 +40,7 @@ public:
 	}
 
 	//“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
-	void Hit(TAG_LIST tag)override;
+	void Hit(const Object& obj)override;
 
 	//”ÍˆÍŠO‚Éo‚½‚Ìˆ—
 	void Clamp(float top, float bottom, float right, float left);

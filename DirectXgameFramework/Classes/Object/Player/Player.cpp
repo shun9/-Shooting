@@ -8,8 +8,12 @@
 
 #include <SL_MacroConstants.h>
 #include "State\PlayerMoveState.h"
+#include "../Bullet/Bullet.h"
 
 using namespace ShunLib;
+
+
+const int Player::MAX_BULLET = 3;
 
 Player::Player()
 {
@@ -38,7 +42,7 @@ void Player::Update()
 	m_stateMachine->Update();
 }
 
-void Player::Hit(TAG_LIST tag)
+void Player::Hit(const Object& obj)
 {
 }
 
@@ -52,5 +56,21 @@ void Player::Clamp(float top, float bottom, float right, float left)
 	if (left > m_pos.m_x)
 	{
 		m_pos.m_x = left;
+	}
+}
+
+/// <summary>
+/// ’e‚ðŒ‚‚Â
+/// </summary>
+void Player::Shoot()
+{
+	for (auto itr = m_bullet.begin(); itr != m_bullet.end(); itr++)
+	{
+		//’e‚ª‘Ò‹@’†‚È‚ç‚ÎŒ‚‚Â
+		if ((*itr)->IsStandState())
+		{
+			(*itr)->Shoot();
+			return;
+		}
 	}
 }

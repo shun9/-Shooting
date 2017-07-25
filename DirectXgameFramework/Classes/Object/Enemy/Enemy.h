@@ -30,7 +30,7 @@ public:
 	}
 
 	//’e‚ª“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
-	void Hit(TAG_LIST tag)override;
+	void Hit(const Object& obj)override;
 	void Clamp(float top, float bottom, float right, float left);
 
 	//“¾“_æ“¾

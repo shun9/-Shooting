@@ -72,6 +72,18 @@ Object::Object():
 
 }
 
+Object::Object(const Object & obj):
+	m_angle(obj.m_angle),
+	m_radius(obj.m_radius),
+	m_model((obj.m_model.get())),
+	m_isDead(false),
+	m_pos(obj.m_pos),
+	m_spd(obj.m_spd),
+	m_tag(obj.m_tag)
+{
+
+}
+
 
 //＋ーーーーーーーーーーーーーー＋
 //｜機能  :デストラクタ

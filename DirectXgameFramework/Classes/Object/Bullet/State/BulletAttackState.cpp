@@ -12,15 +12,14 @@ void BulletAttackState::Enter(Bullet* bullet)
 	//UŒ‚’†
 	bullet->IsAttackState(true);
 
-	//Œ‚‚Ä‚È‚¢
-	bullet->CanShoot(false);
+	bullet->Angle(180.0f);
 }
 
 void BulletAttackState::Execute(Bullet* bullet)
 {
 	auto pos = bullet->Pos();
 
-	pos.m_z += bullet->Spd().m_z / 60.0f;
+	pos.m_z -= bullet->Spd().m_z / 60.0f;
 
 	bullet->Pos(pos);
 

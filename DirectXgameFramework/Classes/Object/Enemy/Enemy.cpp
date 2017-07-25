@@ -1,13 +1,15 @@
 //************************************************/
 //* @file  :Enemy.cpp
 //* @brief :敵クラス
-//* @date  :2017/07/18
+//* @date  :2017/07/24
 //* @author:S.Katou
 //************************************************/
 #include "Enemy.h"
 #include <SL_MacroConstants.h>
 #include "State\EnemyMoveState.h"
 #include "State\EnemyRotationState.h"
+#include "../Bullet/Bullet.h"
+#include "../../Other/ScoreCounter.h"
 
 const wchar_t* Enemy::enemyModel = L"CModel\\Enemy.cmo";
 
@@ -54,11 +56,41 @@ void Enemy::Update()
 /// 当たったときの処理
 /// </summary>
 /// <param name="tag">相手のタグ</param>
-void Enemy::Hit(TAG_LIST tag)
+void Enemy::Hit(const Object& obj)
 {
-	if (tag!=Object::TAG_LIST::ENEMY)
+
+	//現在のタグによって処理を変える
+	if (m_tag == Object::TAG_LIST::ENEMY)
 	{
-		ChangeState(new EnemyRotationState);
+		//敵の時
+		//弾と当たったら状態変化
+		if (obj.Tag() == Object::TAG_LIST::BULLET)
+		{
+			auto scoreCounter = ScoreCounter::GetInstance();
+
+			//スコア加算
+			scoreCounter->AddScore(GetScore());
+			ScoreUp();
+
+			m_spd.m_x *= -1.0f;
+			ChangeState(new EnemyRotationState);
+		}
+	}
+	else if (m_tag == Object::TAG_LIST::BULLET)
+	{
+		//弾の時
+
+		auto scoreCounter = ScoreCounter::GetInstance();
+
+		//敵と当たったらコンボでスコア加算
+		if (obj.Tag()==Object::TAG_LIST::ENEMY)
+		{
+			scoreCounter->AddScore(GetScore());
+			ScoreUp();
+		}
+
+		//弾の時
+		m_spd.m_x *= -1.0f;
 	}
 }
 

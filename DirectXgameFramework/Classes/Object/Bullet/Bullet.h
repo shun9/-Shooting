@@ -14,12 +14,20 @@ private:
 	//UŒ‚’†‚©‚Ç‚¤‚©
 	bool m_isAttackState;
 
-	//Œ‚‚Ä‚éó‘Ô‚©‚Ç‚¤‚©
-	bool m_canShoot;
+	//–ß‚Á‚Ä‚­‚é“r’†‚©‚Ç‚¤‚©
+	bool m_isReturnState;
+
+	//‘Ò‹@’†‚©‚Ç‚¤‚©
+	bool m_isStandState;
+
+	//‚±‚Ì’e‚ğŒ‚‚ÂƒvƒŒƒCƒ„[
+	Object* m_player;
 
 public:
 	Bullet();
 	~Bullet();
+
+	void Update()override;
 
 	//ó‘Ô‚ÌØ‚è‘Ö‚¦
 	void ChangeState(ShunLib::State<Bullet>* state) {
@@ -27,17 +35,29 @@ public:
 	}
 
 	//“G‚Æ“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
-	void Hit(TAG_LIST tag)override;
+	void Hit(const Object& obj)override;
 
-	void Clamp(float top, float bottom, float right, float left) override{};
+	//”ÍˆÍŠO‚Éo‚½‚Ìˆ—
+	void Clamp(float top, float bottom, float right, float left) override;
 
 	//UŒ‚’†‚©‚Ç‚¤‚©
 	void IsAttackState(bool isAttackState) { m_isAttackState = isAttackState; }
 	bool IsAttackState()const { return m_isAttackState; }
 
-	//UŒ‚’†‚©‚Ç‚¤‚©
-	void CanShoot(bool canShoot) { m_canShoot = canShoot; }
-	bool CanShoot()const { return m_canShoot; }
+	//–ß‚Á‚Ä‚­‚é“r’†‚©‚Ç‚¤‚©
+	void IsReturnState(bool isReturnState) { m_isReturnState = isReturnState; }
+	bool IsReturnState()const { return m_isReturnState; }
+
+	//‘Ò‹@’†‚©‚Ç‚¤‚©
+	void IsStandState(bool isStandState) { m_isStandState = isStandState; }
+	bool IsStandState()const { return m_isStandState; }
+
+	//‚±‚Ì’e‚ğŒ‚‚ÂƒvƒŒƒCƒ„[
+	void Player(Object* player) { m_player = player; }
+	Object* Player()const { return m_player; }
+
+	//Œ‚‚Â
+	void Shoot();
 
 private:
 	//ó‘ÔŠÇ——p

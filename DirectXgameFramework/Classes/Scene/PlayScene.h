@@ -21,6 +21,7 @@ class Stage;
 class Object;
 class Player;
 class Enemy;
+class Bullet;
 
 class PlayScene:public Scene
 {
@@ -44,6 +45,7 @@ private:
 
 	ShunLib::Factory<Player> m_playerFactory;
 	ShunLib::Factory<Enemy> m_enemyFactory;
+	ShunLib::Factory<Bullet> m_bulletFactory;
 	ShunLib::Factory<Stage> m_stageFactory;
 
 public:
@@ -57,8 +59,5 @@ public:
 private:
 	//敵の生成
 	void AppearEnemy();
-
-	//オブジェクトの削除
-	//void DeleteObject(Object* obj);
 };
 
