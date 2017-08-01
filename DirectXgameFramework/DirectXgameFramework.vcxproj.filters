@@ -121,6 +121,9 @@
     <ClInclude Include="Classes\Scene\TitleScene.h">
       <Filter>Shun\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Scene\SceneMachine.h">
+      <Filter>Shun\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="Classes\Other\ScoreCounter.cpp">
       <Filter>Shun\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Scene\TitleScene.cpp">
+      <Filter>Shun\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

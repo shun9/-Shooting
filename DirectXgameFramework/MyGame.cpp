@@ -7,6 +7,9 @@
 #include <SL_Effect.h>
 #include <SL_KeyManager.h>
 
+#include "Classes\Scene\PlayScene.h"
+#include "Classes\Scene\SceneMachine.h"
+
 using namespace Microsoft;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -27,8 +30,7 @@ void MyGame::Initialize() {
 	ShunLib::Texture::SetDevice(graph->Device(), graph->Context());
 	ShunLib::Effect::SetDevice (graph->Device(), graph->Context());
 
-	//シーン作成
-	m_scene = new PlayScene    ();
+	SceneMachine::GetInstance()->ChangeScene(new PlayScene);
 }
 
 // ゲームを更新する Update game
@@ -41,8 +43,7 @@ void MyGame::Update(DX::StepTimer const& timer) {
 	ShunLib::KeyManager::GetInstance()->Update();
 
 	//シーンの更新
-	m_scene->Update();
-
+	SceneMachine::GetInstance()->Update();
 }
 
 // シーンを描画する Draws the scene
@@ -56,7 +57,8 @@ void MyGame::Render(DX::StepTimer const& timer) {
 	// 画面をクリアする Clear Screen
 	Clear();
 
-	m_scene->Render();
+	//シーンの描画
+	SceneMachine::GetInstance()->Render();
 
 	// バックバッファをスクリーンに送る Presents the back buffer contents to the screen
 	Present();
@@ -67,7 +69,8 @@ void MyGame::Finalize() {
 	// 基本クラスのFinalizeを呼び出す
 	Game::Finalize();
 
-	DELETE_POINTER(m_scene);
-
 	ShunLib::KeyManager::GetInstance()->Destroy();
+
+	SceneMachine::GetInstance()->Destroy();
+
 }

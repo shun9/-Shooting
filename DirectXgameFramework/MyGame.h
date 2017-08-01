@@ -5,8 +5,6 @@
 
 #include "Game.h"
 
-#include "Classes\Scene\PlayScene.h"
-
 class MyGame : public Game {
 public:
 	// コンストラクタ Constructor
@@ -19,10 +17,6 @@ public:
 	void Render(DX::StepTimer const& timer) override;
 	// 終了処理をおこなう Finalize game
 	void Finalize() override;
-
-protected:
-	PlayScene* m_scene;
-
 };
 
 #endif	// MYGAME

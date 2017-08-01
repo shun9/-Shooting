@@ -21,6 +21,8 @@
 #include "../Object/Bullet/Bullet.h"
 #include "../Other/ScoreCounter.h"
 #include "../Other/MessageFlame.h"
+#include "SceneMachine.h"
+#include "TitleScene.h"
 
 //ステージの上下左右
 const float PlayScene::STAGE_TOP    =  15.0f;
@@ -92,7 +94,7 @@ void PlayScene::Update()
 
 		if (key->IsTracker(KeyManager::KEY_CODE::SPACE))
 		{
-
+			SceneMachine::GetInstance()->ChangeScene(new TitleScene);
 		}
 	}
 }
