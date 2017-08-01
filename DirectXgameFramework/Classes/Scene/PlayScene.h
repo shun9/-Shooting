@@ -13,6 +13,8 @@
 #include <SL_Matrix.h>
 #include <SL_Model.h>
 #include <SL_Factory.h>
+#include <SL_Texture.h>
+#include <SL_Timer.h>
 
 class Stage;
 class Object;
@@ -37,6 +39,10 @@ private:
 
 	Stage* m_stage;
 	Player* m_player;
+	ShunLib::Texture* m_remainingBulletStringTexture;
+
+	//プレイ時間のカウント用
+	ShunLib::Timer m_playTimer;
 
 	//オブジェクトまとめ
 	std::vector<Object*>m_objectPool;
@@ -58,6 +64,15 @@ public:
 	void Render()override;
 
 private:
+	//オブジェクトの初期化処理
+	void ObjectInit();
+
+	//UIの初期化処理
+	void UIInit();
+
+	//オブジェクトの更新処理
+	void ObjectUpdate();
+
 	//敵の生成
 	void AppearEnemy();
 };

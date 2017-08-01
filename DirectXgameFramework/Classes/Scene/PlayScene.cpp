@@ -12,6 +12,7 @@
 #include <SL_ConversionTK.h>
 #include <SL_Conversion.h>
 #include <SL_RandomNumber.h>
+#include <SL_KeyManager.h>
 
 #include "../../Graphics.h"
 #include "../Stage/Stage.h"
@@ -44,34 +45,11 @@ PlayScene::PlayScene() {
 	//ステージ生成
 	m_stage = m_stageFactory.Create();
 
+	//オブジェクトの初期化
+	ObjectInit();
 
-
-	//プレイヤーの生成
-	m_player = m_playerFactory.Create();
-	m_player->LoadModel(L"CModel\\Player.cmo");
-	m_objectPool.push_back(m_player);
-
-	//弾の生成
-	for (int i = 0; i < Player::MAX_BULLET; i++)
-	{
-		auto bullet = m_bulletFactory.Create();
-		m_player->RegisterBullet(bullet);
-		bullet->Player(m_player);
-
-		bullet->LoadModel(L"CModel\\Ghost.cmo");
-		m_objectPool.push_back(bullet);
-	}
-
-	//スコアの表示設定
-	auto scoreCounter = ScoreCounter::GetInstance();
-	scoreCounter->Pos(Vec2(10.0f, 550.0f));
-	scoreCounter->Scale(1.6f);
-
-	//メッセージフレーム表示設定
-	auto flame = m_messageFlameFactory.Create();
-	flame->Pos(Vec2(0.0f, 540.0f));
-	flame->Scale(Vec2(800.0f, 60.0f));
-	m_messageFlame.push_back(flame);
+	//UIの初期化
+	UIInit();
 }
 
 
@@ -90,6 +68,8 @@ PlayScene::~PlayScene()
 	m_objectPool  .shrink_to_fit();
 	m_messageFlame.clear();
 	m_messageFlame.shrink_to_fit();
+
+	DELETE_POINTER(m_remainingBulletStringTexture);
 }
 
 
@@ -100,46 +80,20 @@ PlayScene::~PlayScene()
 //＋ーーーーーーーーーーーーーー＋
 void PlayScene::Update()
 {
-	//更新処理
-	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end();)
+	if (!(m_playTimer.IsEnded()))
 	{
-		if ((*itr) != nullptr) {
-			(*itr)->Update();
-			(*itr)->Clamp(STAGE_TOP, STAGE_BOTTOM, STAGE_RIGHT, STAGE_LEFT);
+		ObjectUpdate();
 
-			//死んでいるオブジェクトを破棄
-			if ((*itr)->IsDead()){
-				if (dynamic_cast<Enemy*>((*itr)) != nullptr){
-
-					m_enemyFactory.Delete(dynamic_cast<Enemy*>((*itr)));
-				}
-				itr = m_objectPool.erase(itr);
-			}
-			else {
-				itr++;
-			}
-		}
+		m_playTimer.Update();
 	}
-
-	//当たり判定
-	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end(); itr++)
+	else
 	{
-		for (auto i = itr+1; i != m_objectPool.end() ; i++)
+		auto key = KeyManager::GetInstance();
+
+		if (key->IsTracker(KeyManager::KEY_CODE::SPACE))
 		{
-			if (Object::Collision((*i), (*itr)))
-			{
-				(*itr)->Hit(*(*i));
-				(*i)->Hit(*(*itr));
-			}
+
 		}
-	}
-
-	static int n = 0;
-	n++;
-
-	if (n % 100 == 0)
-	{
-		AppearEnemy();
 	}
 }
 
@@ -166,12 +120,116 @@ void PlayScene::Render()
 		(*itr)->Draw();
 	}
 
+	//スコア表示
 	auto scoreCounter = ScoreCounter::GetInstance();
 	scoreCounter->DrawScore();
 
-	scoreCounter->DrawNumber(m_player->RemainingBulletNum(), 500.0f, 547.0f,1.6f);
+	//残りの弾数を表示
+	m_remainingBulletStringTexture->Draw(500.0f, 548.0f, 1.8f);
+	scoreCounter->DrawNumber(m_player->RemainingBulletNum(), 690.0f, 547.0f,1.6f);
+
+	scoreCounter->DrawNumber(m_playTimer.GetRemainingCount()/60, 5.0f, 5.0f, 1.6f);
 }
 
+/// <summary>
+/// オブジェクトの初期化
+/// </summary>
+void PlayScene::ObjectInit()
+{
+	//プレイヤーの生成
+	m_player = m_playerFactory.Create();
+	m_player->LoadModel(L"CModel\\Player.cmo");
+	m_objectPool.push_back(m_player);
+
+	//弾の生成
+	for (int i = 0; i < Player::MAX_BULLET; i++)
+	{
+		auto bullet = m_bulletFactory.Create();
+		m_player->RegisterBullet(bullet);
+		bullet->Player(m_player);
+
+		bullet->LoadModel(L"CModel\\Ghost.cmo");
+		m_objectPool.push_back(bullet);
+	}
+
+}
+
+/// <summary>
+/// UIの初期化
+/// </summary>
+void PlayScene::UIInit()
+{
+	//スコアの表示設定
+	auto scoreCounter = ScoreCounter::GetInstance();
+	scoreCounter->Pos(Vec2(10.0f, 550.0f));
+	scoreCounter->Scale(1.6f);
+
+	//スコア用メッセージフレーム表示設定
+	auto flame = m_messageFlameFactory.Create();
+	flame->Pos(Vec2(0.0f, 540.0f));
+	flame->Scale(Vec2(800.0f, 60.0f));
+	m_messageFlame.push_back(flame);
+
+	//タイム用メッセージフレーム表示設定
+	flame = m_messageFlameFactory.Create();
+	flame->Pos(Vec2(0.0f, 0.0f));
+	flame->Scale(Vec2(70.0f, 60.0f));
+	m_messageFlame.push_back(flame);
+
+	m_remainingBulletStringTexture = new Texture(L"Texture\\RemainingBulletString.png");
+
+	//時間のセット 60FPS
+	m_playTimer.SetTime(60 * 60);
+
+}
+
+/// <summary>
+/// オブジェクトの更新
+/// </summary>
+void PlayScene::ObjectUpdate()
+{
+	//更新処理
+	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end();)
+	{
+		if ((*itr) != nullptr) {
+			(*itr)->Update();
+			(*itr)->Clamp(STAGE_TOP, STAGE_BOTTOM, STAGE_RIGHT, STAGE_LEFT);
+
+			//死んでいるオブジェクトを破棄
+			if ((*itr)->IsDead()) {
+				if (dynamic_cast<Enemy*>((*itr)) != nullptr) {
+
+					m_enemyFactory.Delete(dynamic_cast<Enemy*>((*itr)));
+				}
+				itr = m_objectPool.erase(itr);
+			}
+			else {
+				itr++;
+			}
+		}
+	}
+
+	//当たり判定
+	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end(); itr++)
+	{
+		for (auto i = itr + 1; i != m_objectPool.end(); i++)
+		{
+			if (Object::Collision((*i), (*itr)))
+			{
+				(*itr)->Hit(*(*i));
+				(*i)->Hit(*(*itr));
+			}
+		}
+	}
+	static int n = 0;
+	n++;
+
+	if (n % 100 == 0)
+	{
+		AppearEnemy();
+	}
+
+}
 
 /// <summary>
 /// 敵の生成

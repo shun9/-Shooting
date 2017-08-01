@@ -118,6 +118,9 @@
     <ClInclude Include="Classes\Other\MessageFlame.h">
       <Filter>Shun\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Scene\TitleScene.h">
+      <Filter>Shun\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
