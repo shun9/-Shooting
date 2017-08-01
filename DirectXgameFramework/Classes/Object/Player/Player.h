@@ -45,6 +45,9 @@ public:
 	//範囲外に出た時の処理
 	void Clamp(float top, float bottom, float right, float left);
 
+	//弾を撃つ
 	void Shoot();
 
+	//残りの弾数をカウント
+	int RemainingBulletNum();
 };

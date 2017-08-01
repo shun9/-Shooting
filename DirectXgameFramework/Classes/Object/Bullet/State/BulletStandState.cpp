@@ -1,7 +1,7 @@
 //************************************************/
 //* @file  :BulletStandState.cpp
 //* @brief :’e‚Ì‘Ò‹@ó‘Ô
-//* @date  :2017/07/24
+//* @date  :2017/08/01
 //* @author:S.Katou
 //************************************************/
 #include "BulletStandState.h"
@@ -12,6 +12,7 @@ void BulletStandState::Enter(Bullet * bullet)
 	bullet->IsStandState(true);
 	bullet->Angle(0.0f);
 
+	bullet->Tag(Object::TAG_LIST::PLAYER);
 }
 
 void BulletStandState::Execute(Bullet * bullet)

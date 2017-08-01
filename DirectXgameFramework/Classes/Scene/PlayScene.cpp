@@ -19,6 +19,7 @@
 #include "../Object/Enemy/Enemy.h"
 #include "../Object/Bullet/Bullet.h"
 #include "../Other/ScoreCounter.h"
+#include "../Other/MessageFlame.h"
 
 //ステージの上下左右
 const float PlayScene::STAGE_TOP    =  15.0f;
@@ -36,11 +37,9 @@ PlayScene::PlayScene() {
 	m_view = Matrix::CreateLookAt(Vec3(0.0f, 30.0f, 15.0f), Vec3::Zero, Vec3::UnitY);
 
 	//プロジェクション行列作成
-	float w      = static_cast<float>(Graphics::Get().Width());
-	float h      = static_cast<float>(Graphics::Get().Height());
-	MatrixD proj = MatrixD::CreatePerspectiveFieldOfView(ToRadian(45.0f),w/h,0.1f,1000.0f);
-	m_proj       = ConvertTK(proj);
-	m_proj     = Matrix::CreateProj(ToRadian(45.0f), w / h, 0.1f, 1000.0f);
+	float w = static_cast<float>(Graphics::Get().Width());
+	float h = static_cast<float>(Graphics::Get().Height());
+	m_proj  = Matrix::CreateProj(ToRadian(45.0f), w / h, 0.1f, 1000.0f);
 
 	//ステージ生成
 	m_stage = m_stageFactory.Create();
@@ -48,25 +47,31 @@ PlayScene::PlayScene() {
 
 
 	//プレイヤーの生成
-	auto player = m_playerFactory.Create();
-	player->LoadModel(L"CModel\\Player.cmo");
-	m_objectPool.push_back(player);
+	m_player = m_playerFactory.Create();
+	m_player->LoadModel(L"CModel\\Player.cmo");
+	m_objectPool.push_back(m_player);
 
 	//弾の生成
 	for (int i = 0; i < Player::MAX_BULLET; i++)
 	{
 		auto bullet = m_bulletFactory.Create();
-		player->RegisterBullet(bullet);
-		bullet->Player(player);
+		m_player->RegisterBullet(bullet);
+		bullet->Player(m_player);
 
 		bullet->LoadModel(L"CModel\\Ghost.cmo");
 		m_objectPool.push_back(bullet);
 	}
 
+	//スコアの表示設定
 	auto scoreCounter = ScoreCounter::GetInstance();
+	scoreCounter->Pos(Vec2(10.0f, 550.0f));
+	scoreCounter->Scale(1.6f);
 
-	scoreCounter->Pos(Vec2(100, 100));
-	scoreCounter->Scale(1.0f);
+	//メッセージフレーム表示設定
+	auto flame = m_messageFlameFactory.Create();
+	flame->Pos(Vec2(0.0f, 540.0f));
+	flame->Scale(Vec2(800.0f, 60.0f));
+	m_messageFlame.push_back(flame);
 }
 
 
@@ -75,13 +80,16 @@ PlayScene::PlayScene() {
 //＋ーーーーーーーーーーーーーー＋
 PlayScene::~PlayScene()
 {
-	m_playerFactory.AllDelete();
-	m_enemyFactory.AllDelete();
-	m_stageFactory.AllDelete();
-	m_bulletFactory.AllDelete();
+	m_playerFactory      .AllDelete();
+	m_enemyFactory       .AllDelete();
+	m_stageFactory       .AllDelete();
+	m_bulletFactory      .AllDelete();
+	m_messageFlameFactory.AllDelete();
 
-	m_objectPool.clear();
-	m_objectPool.shrink_to_fit();
+	m_objectPool  .clear();
+	m_objectPool  .shrink_to_fit();
+	m_messageFlame.clear();
+	m_messageFlame.shrink_to_fit();
 }
 
 
@@ -152,7 +160,16 @@ void PlayScene::Render()
 		if ((*itr) != nullptr)(*itr)->Draw(m_view, m_proj);
 	}
 
-	ScoreCounter::GetInstance()->DrawScore();
+	//メッセージフレーム表示
+	for (auto itr = m_messageFlame.begin(); itr != m_messageFlame.end(); itr++)
+	{
+		(*itr)->Draw();
+	}
+
+	auto scoreCounter = ScoreCounter::GetInstance();
+	scoreCounter->DrawScore();
+
+	scoreCounter->DrawNumber(m_player->RemainingBulletNum(), 500.0f, 547.0f,1.6f);
 }
 
 

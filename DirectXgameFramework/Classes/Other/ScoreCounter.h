@@ -26,6 +26,9 @@ private:
 	//数字のテクスチャ
 	ShunLib::Texture* m_numbers;
 
+	//「スコア」文字のテクスチャ
+	ShunLib::Texture* m_scoreStringTexture;
+
 	//表示位置
 	ShunLib::Vec2 m_pos;
 
@@ -57,6 +60,9 @@ public:
 	void Scale(float scale) { m_scale = scale; }
 
 private:
-	ScoreCounter() :m_score(0) { m_numbers = new ShunLib::Texture(L"Texture\\Numbers.png"); }
+	ScoreCounter() :m_score(0) {
+		m_numbers = new ShunLib::Texture(L"Texture\\Numbers.png");
+		m_scoreStringTexture = new ShunLib::Texture(L"Texture\\ScoreString.png");
+	}
 	~ScoreCounter() { DELETE_POINTER(m_numbers); }
 };

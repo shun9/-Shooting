@@ -115,6 +115,9 @@
     <ClInclude Include="Classes\Other\ScoreCounter.h">
       <Filter>Shun\Other</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Other\MessageFlame.h">
+      <Filter>Shun\Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

@@ -13,6 +13,8 @@ void BulletAttackState::Enter(Bullet* bullet)
 	bullet->IsAttackState(true);
 
 	bullet->Angle(180.0f);
+
+	bullet->Tag(Object::TAG_LIST::BULLET);
 }
 
 void BulletAttackState::Execute(Bullet* bullet)

@@ -74,3 +74,15 @@ void Player::Shoot()
 		}
 	}
 }
+
+int Player::RemainingBulletNum()
+{
+	int num = 0;
+	for (auto itr = m_bullet.begin(); itr != m_bullet.end(); itr++)
+	{
+		if ((*itr)->Tag() == Object::TAG_LIST::PLAYER) {
+			num++;
+		}
+	}
+	return num;
+}

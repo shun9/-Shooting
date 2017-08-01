@@ -17,7 +17,8 @@ const float ScoreCounter::TEXTURE_HEIGHT = 27;
 /// </summary>
 void ScoreCounter::DrawScore()
 {
-	DrawNumber(GetScore(), m_pos.m_x, m_pos.m_y, m_scale);
+	m_scoreStringTexture->Draw(m_pos.m_x,m_pos.m_y, m_scale);
+	DrawNumber(GetScore(), m_pos.m_x+(80.0f*m_scale), m_pos.m_y-3.0f, m_scale);
 }
 
 
