@@ -5,7 +5,6 @@
 //* @author:S.Katou
 //************************************************/
 #pragma once
-#include "Scene.h"
 #include <memory>
 #include <vector>
 
@@ -15,6 +14,8 @@
 #include <SL_Factory.h>
 #include <SL_Texture.h>
 #include <SL_Timer.h>
+
+#include "Scene.h"
 
 class Stage;
 class Object;
@@ -40,9 +41,13 @@ private:
 	Stage* m_stage;
 	Player* m_player;
 	ShunLib::Texture* m_remainingBulletStringTexture;
+	ShunLib::Texture* m_restartStringTexture;
 
 	//プレイ時間のカウント用
 	ShunLib::Timer m_playTimer;
+
+	//敵出現間隔用
+	ShunLib::Timer m_appearEnemyTimer;
 
 	//オブジェクトまとめ
 	std::vector<Object*>m_objectPool;
@@ -60,8 +65,8 @@ public:
 	~PlayScene();
 
 	//更新＆描画
-	void Update()override;
-	void Render()override;
+	void Update();
+	void Render();
 
 private:
 	//オブジェクトの初期化処理

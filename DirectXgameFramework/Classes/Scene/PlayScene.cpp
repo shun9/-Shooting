@@ -1,7 +1,7 @@
 //************************************************/
 //* @file  :PlayScene.cpp
 //* @brief :プレイ画面のクラス
-//* @date  :2017/07/21
+//* @date  :2017/08/03
 //* @author:S.Katou
 //************************************************/
 #include "PlayScene.h"
@@ -22,11 +22,10 @@
 #include "../Other/ScoreCounter.h"
 #include "../Other/MessageFlame.h"
 #include "SceneMachine.h"
-#include "TitleScene.h"
 
 //ステージの上下左右
 const float PlayScene::STAGE_TOP    =  15.0f;
-const float PlayScene::STAGE_BOTTOM = -30.0f;
+const float PlayScene::STAGE_BOTTOM = -20.0f;
 const float PlayScene::STAGE_RIGHT  =  15.0f;
 const float PlayScene::STAGE_LEFT   = -15.0f;
 
@@ -44,7 +43,7 @@ PlayScene::PlayScene() {
 	float h = static_cast<float>(Graphics::Get().Height());
 	m_proj  = Matrix::CreateProj(ToRadian(45.0f), w / h, 0.1f, 1000.0f);
 
-	//ステージ生成
+	////ステージ生成
 	m_stage = m_stageFactory.Create();
 
 	//オブジェクトの初期化
@@ -52,86 +51,13 @@ PlayScene::PlayScene() {
 
 	//UIの初期化
 	UIInit();
+
+	m_restartStringTexture = nullptr;
+
+	////スコアリセット
+	ScoreCounter::GetInstance()->ResetScore();
 }
 
-
-//＋ーーーーーーーーーーーーーー＋
-//｜機能  :デストラクタ
-//＋ーーーーーーーーーーーーーー＋
-PlayScene::~PlayScene()
-{
-	m_playerFactory      .AllDelete();
-	m_enemyFactory       .AllDelete();
-	m_stageFactory       .AllDelete();
-	m_bulletFactory      .AllDelete();
-	m_messageFlameFactory.AllDelete();
-
-	m_objectPool  .clear();
-	m_objectPool  .shrink_to_fit();
-	m_messageFlame.clear();
-	m_messageFlame.shrink_to_fit();
-
-	DELETE_POINTER(m_remainingBulletStringTexture);
-}
-
-
-//＋ーーーーーーーーーーーーーー＋
-//｜機能  :更新処理
-//｜引数  :なし(void)
-//｜戻り値:なし(void)
-//＋ーーーーーーーーーーーーーー＋
-void PlayScene::Update()
-{
-	if (!(m_playTimer.IsEnded()))
-	{
-		ObjectUpdate();
-
-		m_playTimer.Update();
-	}
-	else
-	{
-		auto key = KeyManager::GetInstance();
-
-		if (key->IsTracker(KeyManager::KEY_CODE::SPACE))
-		{
-			SceneMachine::GetInstance()->ChangeScene(new TitleScene);
-		}
-	}
-}
-
-
-//＋ーーーーーーーーーーーーーー＋
-//｜機能  :描画処理
-//｜引数  :なし(void)
-//｜戻り値:なし(void)
-//＋ーーーーーーーーーーーーーー＋
-void PlayScene::Render()
-{
-	m_stage->Draw(Matrix::Identity, m_view, m_proj);
-
-
-	//オブジェクト描画処理
-	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end(); itr++)
-	{
-		if ((*itr) != nullptr)(*itr)->Draw(m_view, m_proj);
-	}
-
-	//メッセージフレーム表示
-	for (auto itr = m_messageFlame.begin(); itr != m_messageFlame.end(); itr++)
-	{
-		(*itr)->Draw();
-	}
-
-	//スコア表示
-	auto scoreCounter = ScoreCounter::GetInstance();
-	scoreCounter->DrawScore();
-
-	//残りの弾数を表示
-	m_remainingBulletStringTexture->Draw(500.0f, 548.0f, 1.8f);
-	scoreCounter->DrawNumber(m_player->RemainingBulletNum(), 690.0f, 547.0f,1.6f);
-
-	scoreCounter->DrawNumber(m_playTimer.GetRemainingCount()/60, 5.0f, 5.0f, 1.6f);
-}
 
 /// <summary>
 /// オブジェクトの初期化
@@ -153,7 +79,6 @@ void PlayScene::ObjectInit()
 		bullet->LoadModel(L"CModel\\Ghost.cmo");
 		m_objectPool.push_back(bullet);
 	}
-
 }
 
 /// <summary>
@@ -182,7 +107,101 @@ void PlayScene::UIInit()
 
 	//時間のセット 60FPS
 	m_playTimer.SetTime(60 * 60);
+	m_appearEnemyTimer.SetTime(static_cast<int>(0.2f * 60));
+}
 
+//＋ーーーーーーーーーーーーーー＋
+//｜機能  :デストラクタ
+//＋ーーーーーーーーーーーーーー＋
+PlayScene::~PlayScene()
+{
+	m_playerFactory      .AllDelete();
+	m_enemyFactory       .AllDelete();
+	m_stageFactory       .AllDelete();
+	m_bulletFactory      .AllDelete();
+	m_messageFlameFactory.AllDelete();
+
+	m_objectPool  .clear();
+	m_objectPool  .shrink_to_fit();
+	m_messageFlame.clear();
+	m_messageFlame.shrink_to_fit();
+
+	DELETE_POINTER(m_remainingBulletStringTexture);
+	DELETE_POINTER(m_restartStringTexture);
+}
+
+
+/// <summary>
+/// 更新処理
+/// </summary>
+void PlayScene::Update()
+{
+	if (!(m_playTimer.IsEnded()))
+	{
+		//プレイ中の処理
+		ObjectUpdate();
+
+		m_playTimer.Update();
+	}
+	else
+	{
+		//プレイ後の処理
+		auto key = KeyManager::GetInstance();
+
+		if (key->IsTracker(KeyManager::KEY_CODE::SPACE))
+		{
+			SceneMachine::GetInstance()->ChangeScene(new PlayScene);
+		}
+
+		if (m_restartStringTexture == nullptr)
+		{
+			auto flame = m_messageFlameFactory.Create();
+			flame->Pos(Vec2(240.0f, 262.0f));
+			flame->Scale(Vec2(300.0f, 60.0f));
+			m_messageFlame.push_back(flame);
+
+			m_restartStringTexture = new ShunLib::Texture(L"Texture\\RestartString.png");
+		}
+	}
+}
+
+
+/// <summary>
+/// 描画処理
+/// </summary>
+void PlayScene::Render()
+{
+	m_stage->Draw(Matrix::Identity, m_view, m_proj);
+
+	//オブジェクト描画処理
+	for (auto itr = m_objectPool.begin(); itr != m_objectPool.end(); itr++)
+	{
+		if ((*itr) != nullptr)(*itr)->Draw(m_view, m_proj);
+	}
+
+	//メッセージフレーム表示
+	for (auto itr = m_messageFlame.begin(); itr != m_messageFlame.end(); itr++)
+	{
+		(*itr)->Draw();
+	}
+
+	//スコア表示
+	auto scoreCounter = ScoreCounter::GetInstance();
+	scoreCounter->DrawScore();
+
+	//残りの弾数を表示
+	m_remainingBulletStringTexture->Draw(500.0f, 548.0f, 1.8f);
+	scoreCounter->DrawNumber(m_player->RemainingBulletNum(), 690.0f, 547.0f,1.6f);
+
+	//残り時間を表示
+	scoreCounter->DrawNumber(m_playTimer.GetRemainingCount()/60, 5.0f, 5.0f, 1.6f);
+
+	//プレイが終了したら表示
+	if (m_playTimer.IsEnded()){
+		if (m_restartStringTexture != nullptr){
+			m_restartStringTexture->Draw(245.0f, 270.0f,1.8f);
+		}
+	}
 }
 
 /// <summary>
@@ -223,14 +242,8 @@ void PlayScene::ObjectUpdate()
 			}
 		}
 	}
-	static int n = 0;
-	n++;
 
-	if (n % 100 == 0)
-	{
-		AppearEnemy();
-	}
-
+	AppearEnemy();
 }
 
 /// <summary>
@@ -238,14 +251,22 @@ void PlayScene::ObjectUpdate()
 /// </summary>
 void PlayScene::AppearEnemy()
 {
-	Enemy* enemy = m_enemyFactory.Create();
-	enemy->LoadModel(Enemy::enemyModel);
+	m_appearEnemyTimer.Update();
 
-	//速度と初期位置をランダムに決定
-	RandomNumber rn;
-	enemy->Pos(Vec3(rn(STAGE_LEFT, STAGE_RIGHT), 0.0f, -20.0f));
-	enemy->Spd(Vec3(rn(-15.0f,15.0f), 0.0f, rn(1.0f,10.0f)));
+	if (m_appearEnemyTimer.IsEnded())
+	{
+		Enemy* enemy = m_enemyFactory.Create();
+		enemy->LoadModel(Enemy::enemyModel);
 
-	//敵を追加
-	m_objectPool.push_back(enemy);
+		//速度と初期位置をランダムに決定
+		RandomNumber rn;
+		enemy->Pos(Vec3(rn(STAGE_LEFT, STAGE_RIGHT), 0.0f, STAGE_BOTTOM + 1.0f));
+		enemy->Spd(Vec3(rn(-15.0f, 15.0f), 0.0f, rn(1.0f, 10.0f)));
+
+		//敵を追加
+		m_objectPool.push_back(enemy);
+
+		//リセット
+		m_appearEnemyTimer.ResetCount();
+	}
 }

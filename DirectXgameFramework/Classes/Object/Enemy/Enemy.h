@@ -36,8 +36,8 @@ public:
 	//得点取得
 	int GetScore() { return m_score; }
 
-	//得点を倍にする
-	void ScoreUp() { m_score *= 2; }
+	//得点を上げる
+	void ScoreUp() { m_score += 1; }
 private:
 	//状態管理用
 	ShunLib::StateMachine<Enemy>* m_stateMachine;

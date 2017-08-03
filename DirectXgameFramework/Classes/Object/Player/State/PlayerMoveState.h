@@ -6,10 +6,21 @@
 //************************************************/
 #pragma once
 #include <SL_State.h>
+#include <SL_CommandInput.h>
+#include <SL_KeyManager.h>
+
+#include "../Command/PlayerCommand.h"
+
 class Player;
 
 class PlayerMoveState : public ShunLib::State<Player>
 {
+private:
+	ShunLib::CommandInput<ShunLib::KeyManager::KEY_CODE, Player>m_commandInput;
+	ShunLib::CommandInput<ShunLib::KeyManager::KEY_CODE, Player>m_commandInputTracker;
+	std::vector<ShunLib::KeyManager::KEY_CODE>m_keyList;
+	std::vector<ShunLib::KeyManager::KEY_CODE>m_trackerList;
+
 public:
 	//äJénèàóù
 	void Enter(Player* player)override;
@@ -20,7 +31,14 @@ public:
 	//èIóπèàóù
 	void Exit(Player* player)override;
 
-public:
-	PlayerMoveState() {}
+	PlayerMoveState() {
+		using namespace ShunLib;
+
+		m_commandInput.SetCommand(KeyManager::KEY_CODE::LEFT, new PlayerLeftMoveCommand);
+		m_commandInput.SetCommand(KeyManager::KEY_CODE::RIGHT, new PlayerRightMoveCommand);
+		m_commandInputTracker.SetCommand(KeyManager::KEY_CODE::SPACE, new PlayerShootCommand);
+		m_keyList = m_commandInput.GetKeyList();
+		m_trackerList = m_commandInputTracker.GetKeyList();
+	}
 	~PlayerMoveState() {}
 };

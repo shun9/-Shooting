@@ -50,6 +50,9 @@
     <Filter Include="Shun\Other">
       <UniqueIdentifier>{1b00657f-390a-4cf3-8d12-9945d62aef17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shun\Object\Player\Command">
+      <UniqueIdentifier>{7daf93d0-f63a-4706-9da9-ccc01c4aaf69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -71,9 +74,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Scene\PlayScene.h">
-      <Filter>Shun\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Scene\Scene.h">
       <Filter>Shun\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Stage\Stage.h">
@@ -118,11 +118,14 @@
     <ClInclude Include="Classes\Other\MessageFlame.h">
       <Filter>Shun\Other</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Scene\TitleScene.h">
+    <ClInclude Include="Classes\Scene\Scene.h">
       <Filter>Shun\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Scene\SceneMachine.h">
       <Filter>Shun\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Object\Player\Command\PlayerCommand.h">
+      <Filter>Shun\Object\Player\Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +145,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Scene\PlayScene.cpp">
-      <Filter>Shun\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Scene\Scene.cpp">
       <Filter>Shun\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Stage\Stage.cpp">
@@ -186,8 +186,8 @@
     <ClCompile Include="Classes\Other\ScoreCounter.cpp">
       <Filter>Shun\Other</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\Scene\TitleScene.cpp">
-      <Filter>Shun\Scene</Filter>
+    <ClCompile Include="Classes\Object\Player\Command\PlayerCommand.cpp">
+      <Filter>Shun\Object\Player\Command</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

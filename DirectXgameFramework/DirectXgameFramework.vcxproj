@@ -71,16 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\EffekseerRuntime122\Compiled\include;C:\ShunLibTK\inc;C:\ShunLib\inc;C:\DirectXTK\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\EffekseerRuntime122\Compiled\lib\VS2015\Debug;C:\ShunLibTK\Debug;C:\DirectXTK\Bin\Desktop_2015\Win32\Debug;C:\ShunLib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\s162044\Documents\FactoryMethod 2\ShunLibTK\inc;C:\Users\s162044\Documents\FactoryMethod 2\ShunLib\inc;C:\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\DirectXTK\Bin\Desktop_2015\Win32\Debug;C:\Users\s162044\Documents\FactoryMethod 2\ShunLibTK\Debug;C:\Users\s162044\Documents\FactoryMethod 2\ShunLib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\EffekseerRuntime122\Compiled\include;C:\DirectXTK\Inc;C:\ShunLibTK\inc;C:\ShunLib\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\EffekseerRuntime122\Compiled\lib\VS2015\Release;C:\DirectXTK\Bin\Desktop_2015\Win32\Release;C:\ShunLibTK\Release;C:\ShunLib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\DirectXTK\Inc;C:\Users\s162044\Documents\FactoryMethod 2\ShunLibTK\inc;C:\Users\s162044\Documents\FactoryMethod 2\ShunLib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\s162044\Documents\FactoryMethod 2\ShunLib\Release;C:\DirectXTK\Bin\Desktop_2015\Win32\Release;C:\Users\s162044\Documents\FactoryMethod 2\ShunLibTK\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -100,7 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Effekseer.lib;EffekseerRendererDX11.lib;ShunLibTK.lib;ShunLib.lib;DirectXTK.lib;d3d11.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ShunLibTK.lib;ShunLib.lib;DirectXTK.lib;d3d11.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <MeshContentTask>
@@ -181,6 +181,7 @@
     <ClInclude Include="Classes\Object\Enemy\State\EnemyMoveState.h" />
     <ClInclude Include="Classes\Object\Enemy\State\EnemyRotationState.h" />
     <ClInclude Include="Classes\Object\Object.h" />
+    <ClInclude Include="Classes\Object\Player\Command\PlayerCommand.h" />
     <ClInclude Include="Classes\Object\Player\Player.h" />
     <ClInclude Include="Classes\Object\Player\State\PlayerAttackState.h" />
     <ClInclude Include="Classes\Object\Player\State\PlayerMoveState.h" />
@@ -189,7 +190,6 @@
     <ClInclude Include="Classes\Scene\PlayScene.h" />
     <ClInclude Include="Classes\Scene\Scene.h" />
     <ClInclude Include="Classes\Scene\SceneMachine.h" />
-    <ClInclude Include="Classes\Scene\TitleScene.h" />
     <ClInclude Include="Classes\Stage\Stage.h" />
     <ClInclude Include="dx.h" />
     <ClInclude Include="Game.h" />
@@ -207,13 +207,12 @@
     <ClCompile Include="Classes\Object\Enemy\State\EnemyMoveState.cpp" />
     <ClCompile Include="Classes\Object\Enemy\State\EnemyRotationState.cpp" />
     <ClCompile Include="Classes\Object\Object.cpp" />
+    <ClCompile Include="Classes\Object\Player\Command\PlayerCommand.cpp" />
     <ClCompile Include="Classes\Object\Player\Player.cpp" />
     <ClCompile Include="Classes\Object\Player\State\PlayerAttackState.cpp" />
     <ClCompile Include="Classes\Object\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Classes\Other\ScoreCounter.cpp" />
     <ClCompile Include="Classes\Scene\PlayScene.cpp" />
-    <ClCompile Include="Classes\Scene\Scene.cpp" />
-    <ClCompile Include="Classes\Scene\TitleScene.cpp" />
     <ClCompile Include="Classes\Stage\Stage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />

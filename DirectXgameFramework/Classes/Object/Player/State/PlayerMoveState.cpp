@@ -19,24 +19,23 @@ void PlayerMoveState::Execute(Player* player)
 {
 	using namespace ShunLib;
 	auto key = KeyManager::GetInstance();
-	auto pos = player->Pos();
 
-	//左右キーで横移動
-	if (key->IsPushed(KeyManager::KEY_CODE::RIGHT))
+	//キーが押されていたらコマンド実行
+	for (auto itr = m_keyList.begin(); itr != m_keyList.end(); itr++)
 	{
-		pos.m_x += (player->Spd().m_x /60.0f);
+		if (key->IsPushed((*itr)))
+		{
+			m_commandInput.HandleInput((*itr))->Execute(player);
+		}
 	}
 
-	if (key->IsPushed(KeyManager::KEY_CODE::LEFT))
+	//ステート切替の可能性があるのでイテレータを使わない
+	for (auto i = 0; i < static_cast<int>(m_trackerList.size()); i++)
 	{
-		pos.m_x -= player->Spd().m_x / 60.0f;
-	}
-	player->Pos(pos);
-
-	//スペースキーが押されたら弾を撃つ
-	if (key->IsTracker(KeyManager::KEY_CODE::SPACE))
-	{
-		player->ChangeState(new PlayerAttackState);
+		if (key->IsPushed(m_trackerList[i]))
+		{
+			m_commandInputTracker.HandleInput(m_trackerList[i])->Execute(player);
+		}
 	}
 }
 

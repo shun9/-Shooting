@@ -64,5 +64,8 @@ private:
 		m_numbers = new ShunLib::Texture(L"Texture\\Numbers.png");
 		m_scoreStringTexture = new ShunLib::Texture(L"Texture\\ScoreString.png");
 	}
-	~ScoreCounter() { DELETE_POINTER(m_numbers); }
+	~ScoreCounter() {
+		DELETE_POINTER(m_numbers);
+		DELETE_POINTER(m_scoreStringTexture);
+	}
 };

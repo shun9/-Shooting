@@ -4,11 +4,11 @@
 #include <SL_MacroConstants.h>
 #include <SL_Model.h>
 #include <SL_Texture.h>
-#include <SL_Effect.h>
 #include <SL_KeyManager.h>
 
 #include "Classes\Scene\PlayScene.h"
 #include "Classes\Scene\SceneMachine.h"
+#include "Classes\Other\ScoreCounter.h"
 
 using namespace Microsoft;
 using namespace DirectX;
@@ -28,7 +28,6 @@ void MyGame::Initialize() {
 	Graphics* graph = &(Graphics::Get());
 	ShunLib::Model::SetDevice  (graph->Device(), graph->Context());
 	ShunLib::Texture::SetDevice(graph->Device(), graph->Context());
-	ShunLib::Effect::SetDevice (graph->Device(), graph->Context());
 
 	SceneMachine::GetInstance()->ChangeScene(new PlayScene);
 }
@@ -42,7 +41,6 @@ void MyGame::Update(DX::StepTimer const& timer) {
 	//キーボードの更新処理
 	ShunLib::KeyManager::GetInstance()->Update();
 
-	//シーンの更新
 	SceneMachine::GetInstance()->Update();
 }
 
@@ -57,7 +55,6 @@ void MyGame::Render(DX::StepTimer const& timer) {
 	// 画面をクリアする Clear Screen
 	Clear();
 
-	//シーンの描画
 	SceneMachine::GetInstance()->Render();
 
 	// バックバッファをスクリーンに送る Presents the back buffer contents to the screen
@@ -70,7 +67,6 @@ void MyGame::Finalize() {
 	Game::Finalize();
 
 	ShunLib::KeyManager::GetInstance()->Destroy();
-
-	SceneMachine::GetInstance()->Destroy();
-
+	SceneMachine::Destroy();
+	ScoreCounter::Destroy();
 }
